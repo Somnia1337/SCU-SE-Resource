@@ -1,0 +1,26 @@
+===要求=======
+Part1: CG overview, CG System, GPU pipeline, CG App Program
+HW1：2D图形的交互绘制
+基本要求：以鼠标点击画布的任意位置为中心，重新绘制矩形，并且填充颜色取随机色。
+附加项：可添加动画效果比如让矩形绕自己的中心旋转。
+
+Part2: Geometry Objects Modeling & GeometryTransformation
+HW2：3D物体建模和场景漫游
+基本要求：建模网格模型草帽（颜色花纹不限制）；键盘WASD控制相机绕坐标轴旋转；键盘P正投影，键盘P透视投影。
+附加项：构造了复杂几何物体如3D分形图，由他茶壶等；或虚拟跟踪球交互效果；或在顶点着色器中实现物体morph变形等复杂动画。
+
+Part3：Shading & Texture Mapping，
+HW3: 光栅化场景渲染着色
+基本要求：场景中设置光源和多个几何体；计算光照颜色（可Blinn Phong)及阴影（可shadowMap）,表面贴纹理。要求在shader中编写主要的计算代码.
+附加项：添加雾化，透明等效果；或采用了多光源效果；或构建了场景图scene graph等复杂几何（如小汽车）。
+
+
+Part4：RT(Ray Casting, whitted RT, Path Tracing)
+HW4:  光线跟踪场景渲染着色
+基本要求：采用光线跟踪方法完成作业3中的类似渲染效果，要求在shader中编写主要计算代码。
+附加项：采用路径跟踪算法；或实现了其它特效（如焦散等）
+
+===说明=======
+1）作业1~4可用老师/助教给的模板补充代码完成，也可以自己搭建框架完成。
+2）hw1,hw2要求用webGL等底层API完成；hw3，hw4(final project)可用three.js等高级API完成。
+3）完成基本要求的功能得90分，附加部分属于难度分10分，总共100分。

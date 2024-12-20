@@ -1,0 +1,9 @@
+[package]
+name = "three-d-scene"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+three-d = { version = "0.18.0", features = ["egui-gui"] }
+three-d-asset = { version = "0.9", features = ["gltf", "hdr", "jpeg"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
