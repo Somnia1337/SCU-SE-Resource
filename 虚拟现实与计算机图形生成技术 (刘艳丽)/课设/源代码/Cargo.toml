@@ -1,0 +1,18 @@
+[package]
+name = "ray-tracing"
+version = "0.4.1"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.39", features = ["derive"] }
+nalgebra = "0.33.2"
+rand = "0.9.1"
+rayon = "1.10.0"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+
+[features]
+benchmark = []
+course = []

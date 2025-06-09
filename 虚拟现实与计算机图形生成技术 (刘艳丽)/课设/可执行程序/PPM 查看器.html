@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://www.cs.rhodes.edu/welshc/COMP141_F16/ppmReader.html -->
+<html><!--
+    Originally created by
+    John Nicholson, Austin Peay State University
+    --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>PPM Viewer</title>
+        
+        <style type="text/css">
+            form, div, p {
+                text-align:center;
+            }
+            div {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            form,div {
+                margin-left:auto;
+                margin-right:auto;
+            }
+            #instruct {
+            }
+            #name {
+                font-size: 1.4em;
+                font-weight: bold;
+            }
+            #errorDiv {
+                text-align:center;
+            }
+            .error {
+                display:inline-block;
+                text-align:left;
+                margin-left:auto;
+                margin-right:auto;
+                font-weight:bold;
+            }
+        </style>
+        <script type="text/javascript">
+            var reloadButton;
+            var canvas;
+            var ctx;
+
+            function showError(msg) {
+                var errorDiv = document.getElementById("errorDiv");
+                errorDiv.innerHTML = '<div class="error">Error: ' + msg + '</div>';
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+
+            function processPPM(fileContents) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+             
+                fileContents = fileContents.replace(/^\s+/, '').replace(/\s+$/, '');
+                var data = fileContents.split(/\s+/);
+
+                if (fileContents.substr(0, 2) != 'P3' || data[0] != 'P3') {
+                    showError('File is not a PPM');
+                    return;
+                } 
+
+                var width = data[1];
+                var height = data[2];
+                var maxColors = data[3];
+
+                if (data[3] != 255) {
+                    showError('MaxColors is not 255');
+                    return;
+                }
+
+                if (data.length != 3 * width * height + 4) {
+                    showError('Not enough pixel data.<br>'
+                              + 'Found: ' + (data.length  -  4) + '<br>'
+                              + 'Expecting: ' + (3 * width * height) + '<br>'
+                              + 'Based on width = ' + width 
+                              + ' and height = ' + height);
+                    return;
+                }
+
+                errorDiv.innerHTML = '';
+
+                canvas.width=width; 
+                canvas.height=height; 
+
+                var img = ctx.getImageData(0, 0, width, height);
+                var pixels = img.data;
+
+                var imageIndex = 0;
+                for (var i = 4; i < data.length; i += 3) {
+                    pixels[imageIndex++] = data[i]; // r
+                    pixels[imageIndex++] = data[i+1]; // g
+                    pixels[imageIndex++] = data[i+2]; // b
+                    pixels[imageIndex++] = 255; // a
+                }
+                ctx.putImageData(img, 0, 0);
+                reloadButton.disabled = false;
+            }
+
+            function processFiles(files) {
+                if (! reloadButton) {
+                    reloadButton = document.getElementById("reloadBtn");
+                }
+                if (! canvas) {
+                    canvas = document.getElementById("imageCanvas");
+                    ctx = canvas.getContext("2d");
+                }
+
+                reloadButton.disabled = true;
+
+                var file = files[0];
+                var filenameDiv = document.getElementById("filenameDiv");
+                filenameDiv.innerHTML = "File: " + file.name;
+
+                if (file.name.substr(file.name.length-4) != ".ppm") {
+                    showError('file name does not end with ".ppm"');
+                    return
+                }
+
+
+                var r = new FileReader();
+
+                r.onload = function(e) { 
+                    var contents = e.target.result;
+                    processPPM(contents);
+                } 
+                r.readAsText(file);
+
+            }
+        </script>
+    </head>
+    <body>
+        <div id="name">PPM Viewer</div>
+        <div id="instruct">Choose a PPM image to view</div>
+        <form name="fileForm" id="fileForm">
+            <input type="file" name="filedata" id="filedata" onchange="processFiles(this.files);">
+            <br>
+            <button id="reloadBtn" onclick="processFiles(this.form.filedata.files); return false;" disabled="">Reload image</button>
+        </form>
+        <div id="filenameDiv"></div>
+        <div id="errorDiv"></div>
+        <div><canvas id="imageCanvas" width="100" height="100"></canvas></div>
+    
+
+<a href="https://www.cs.rhodes.edu/welshc/COMP141_F16/ppmReader.html#" id="__TIMER_INJECTION_FLAG__dkdhhcbjijekmneelocdllcldcpmekmm" style="visibility: hidden;"></a></body></html>
